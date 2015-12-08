@@ -1,4 +1,4 @@
-runs/*
+_output/
 archive_paper_runs
 *.data
 *.out
@@ -6,5 +6,5 @@ archive_paper_runs
 *.pyc
 *.o
 *.mod
-_output/
+
 
