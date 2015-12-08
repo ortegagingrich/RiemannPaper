@@ -1,0 +1,10 @@
+runs/*
+archive_paper_runs
+*.data
+*.out
+*.kml
+*.pyc
+*.o
+*.mod
+_output/
+
