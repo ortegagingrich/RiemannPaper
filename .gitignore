@@ -6,5 +6,6 @@ archive_paper_runs
 *.pyc
 *.o
 *.mod
+xgeoclaw
 
 

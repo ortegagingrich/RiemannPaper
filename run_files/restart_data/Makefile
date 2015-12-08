@@ -32,17 +32,13 @@ FFLAGS ?=
 
 AMRLIB = $(CLAW)/amrclaw/src/2d
 GEOLIB = $(CLAW)/geoclaw/src/2d/shallow
-MODLIB = $(CLAW)/ESS544/mod/src/2d/shallow
 
 include $(GEOLIB)/Makefile.geoclaw
 
-EXCLUDE_SOURCES = \
-  hybrid_parameters.f90 \
 
 MODULES = \
 
 SOURCES = \
-  params/hybrid_parameters1.f90\
   $(CLAW)/riemann/src/rpn2_geoclaw.f \
   $(CLAW)/riemann/src/rpt2_geoclaw.f \
   $(CLAW)/riemann/src/geoclaw_riemann_utils.f \
