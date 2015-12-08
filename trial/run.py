@@ -49,7 +49,7 @@ class RiemannRun(object):
         os.mkdir(source_path)
         
         #common fortran files
-        for common_source in glob.glob(r'src/*.f90'):
+        for common_source in glob.glob(r'src/*.f*'):
             shutil.copy(common_source, source_path)
         
         #Riemann solver
