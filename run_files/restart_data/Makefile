@@ -52,10 +52,8 @@ clear:
 	rm *.data
 	rm *.kml
 
-part:
-	python make_fgmax.py
-	nice -n7 $(MAKE) .output
-	nice -n7 $(MAKE) plots
+restart:
+	$(MAKE) .output
 
 all:
 	nice -n7 $(MAKE) .output
