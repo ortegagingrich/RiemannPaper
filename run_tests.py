@@ -3,6 +3,13 @@ Executes the CLAWPACK runs necessary for the comparisons of different Riemann
 solvers with different parameters.
 """
 from trial import run
+import os
+
+
+def set_environ():
+	""" Set environment variables, etc. needed for run """
+	riemann_paper_directory = os.getcwd()
+
 
 def run_tests():
     """For now, just run a single test"""
@@ -45,4 +52,5 @@ def clear_runs():
 
 
 if __name__ == "__main__":
+	#set_environ()
     run_tests()

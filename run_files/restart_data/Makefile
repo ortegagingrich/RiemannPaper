@@ -47,14 +47,16 @@ SOURCES = \
 # Include Makefile containing standard definitions and make options:
 include $(CLAWMAKE)
 
+clear:
+	$(MAKE) clobber
+	rm *.data
+	rm *.kml
+
 part:
 	python make_fgmax.py
 	nice -n7 $(MAKE) .output
 	nice -n7 $(MAKE) plots
 
 all:
-	#python make_fgmax.py
 	nice -n7 $(MAKE) .output
-	#python plot_fgmax.py
 	nice -n7 $(MAKE) plots
-	#$(MAKE) .htmls

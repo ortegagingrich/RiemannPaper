@@ -67,11 +67,11 @@ def setrun(claw_pkg='geoclaw'):
     
     # SET "Computational Domain" (RED borders in Google Earth):
     
-    clawdata.lower[0] = x1 = -130.0    # SET West longitude boundary
-    clawdata.upper[0] = x2 = -123.0    # SET East longitude boundary
+    clawdata.lower[0] = x1 = 231.0    # SET West longitude boundary
+    clawdata.upper[0] = x2 = 237.0   # SET East longitude boundary
 
     clawdata.lower[1] = y1 = 39.0    # SET South latitude boundary
-    clawdata.upper[1] = y2 = 52.0    # SET North latitude boundary
+    clawdata.upper[1] = y2 = 49.0    # SET North latitude boundary
 
     # SET Level 1 Resolution = Number of grid cells: Coarsest grid
     clawdata.num_cells[0] = 7#int(x2-x1)  # SET Longitude resolution.  1 deg E-W cells  
@@ -284,9 +284,16 @@ def setrun(claw_pkg='geoclaw'):
     # Level 3 is 1' = 60" = 1.85 km = 1850 m
     # Level 4 is 3.75" = 115.625 m
     
-    amrdata.refinement_ratios_x = [10,12,30]  # SET Levels 2,3, ... x Refinement ratios
-    amrdata.refinement_ratios_y = [10,12,30]  # SET Levels 2,3, ... y Refinement ratios
-    amrdata.refinement_ratios_t = [1,1,1]
+    #amrdata.refinement_ratios_x = [10,12,30]  # SET Levels 2,3, ... x Refinement ratios
+    #amrdata.refinement_ratios_y = [10,12,30]  # SET Levels 2,3, ... y Refinement ratios
+    #amrdata.refinement_ratios_t = [1,1,1]
+    
+    ratios = [5, 12, 10]
+    amrdata.refinement_ratios_x = ratios
+    amrdata.refinement_ratios_y = ratios
+    
+    #dummy, otherwise we get an error; uses automatic t refinement anyway
+    amrdata.refinement_ratios_t = [1, 1, 1]
 
     # Specify type of each aux variable in amrdata.auxtype.
     # This must be a list of length maux, each element of which is one of:
@@ -354,16 +361,12 @@ def setrun(claw_pkg='geoclaw'):
     #  quadrilateral shapes that are defined in script make_fgmax_grid.py
     #regions.append([3, 3, 120*60., 1e10, -124.5, -124.1, 47.1, 47.5])   # Walsh #11 Medium
     #Grays Harbor:
-    regions.append([3,3,0*15*60,1e10,-124.3,-123.7,46.8,47.2])
+    regions.append([2,3,0*15*60,1e10,235.81,236.2,46.75,47.15])
 
     # Region 3 = Finest Computational Grid.  Shape & extent defined in script make_fgmax_grid.py 
     #regions.append([4, 4, 180*60.,1e10,-124.35,-124.15,47.25,47.35])  # Walsh #11 Fine    
     #Ocean Shores:
-    regions.append([4,4,0*15*60,1e10,-124.2,-124.1,46.925,47.025])
-    #Westport:
-    regions.append([4,4,0*15*60,1e10,-124.14,-124.08,46.85,46.92])
-    #Aberdeen/Hoquiam
-    regions.append([4,4,0*15*60,1e10,-123.925,-123.8,46.95,46.99])
+    regions.append([3,4,0*15*60,1e10,235.82,235.9,46.925,47.025])
 
     # ---------------
     # Gauges:
@@ -376,19 +379,19 @@ def setrun(claw_pkg='geoclaw'):
     #rundata.gaugedata.gauges.append([1101, -124.244725,  47.284000, 180.*60., 1.e10]) # SET Walsh #11
     #rundata.gaugedata.gauges.append([1102, -124.234, 47.284, 180.*60., 1.e10]) # SET Walsh #11
     #Ocean Shores
-    rundata.gaugedata.gauges.append([1101,-124.183139,47.015998,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1101,-124.183139,47.015998,15.*60,1.e10])
     #Westport
-    rundata.gaugedata.gauges.append([1102,-124.132097,46.880604,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1102,-124.132097,46.880604,15.*60,1.e10])
     #Aberdeen bridge
-    rundata.gaugedata.gauges.append([1103,-123.808347,46.972014,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1103,-123.808347,46.972014,15.*60,1.e10])
     #east of Rennie Island
-    rundata.gaugedata.gauges.append([1104,-123.844931,46.957414,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1104,-123.844931,46.957414,15.*60,1.e10])
     #Hoquiam
-    rundata.gaugedata.gauges.append([1105,-123.899454,46.970356,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1105,-123.899454,46.970356,15.*60,1.e10])
     #Behind Westport
-    rundata.gaugedata.gauges.append([1106,-124.084365,46.886702,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1106,-124.084365,46.886702,15.*60,1.e10])
     #Harbor mouth
-    rundata.gaugedata.gauges.append([1107,-124.128509,46.921531,15.*60,1.e10])
+    #rundata.gaugedata.gauges.append([1107,-124.128509,46.921531,15.*60,1.e10])
 
     return rundata
     # end of function setrun
@@ -442,9 +445,25 @@ def setgeo(rundata):
     topo_data = rundata.topo_data
     # for topography, append lines of the form
     #    [topotype, minlevel, maxlevel, t1, t2, fname]
-    topo_data.topofiles.append([3, 1, 4, 0., 1.e10, CLAW + '/ESS544/topo/etopo1-131122039053.tt3']) # SET N. Pacific topo
-    #topo_data.topofiles.append([3, 1, 4, 0., 1.e10, CLAW + '/ESS544/topo/taholah_wa_1_3s.tt3']) # SET Medium and Fine topo
-    topo_data.topofiles.append([3,1,4,120.*60,1.e10,CLAW+'/ESS544/topo/grays_harbor.tt3'])
+    
+    #a hack to get to the topography files
+    current_directory = os.getcwd()
+    os.chdir('..')
+    os.chdir('../data')
+    topo_dir = os.path.join(os.getcwd(), 'topo')
+    dtopo_dir = os.path.join(os.getcwd(), 'dtopo')
+    os.chdir(current_directory)
+    
+    topo_file_1 = os.path.join(topo_dir, 'etopo1.tt3')
+    topo_file_2 = os.path.join(topo_dir, 'N_GraysHarbor_1_3sec.tt3')
+    
+    dtopo_file = os.path.join(dtopo_dir, 'CSZ_L1.tt3')
+    
+    # SET N. Pacific topo
+    topo_data.topofiles.append([3, 1, 4, 0., 1.e10, topo_file_1])
+    
+    #grays harbor topo file
+    topo_data.topofiles.append([3,1,4,30.*60,1.e10, topo_file_2])
 
     
     # == setdtopo.data values ==
@@ -452,9 +471,8 @@ def setgeo(rundata):
     dtopo_data = rundata.dtopo_data
     # for moving topography, append lines of the form :   (<= 1 allowed for now!)
     #   [topotype, minlevel,maxlevel,fname]
-    # dtopo_data.dtopofiles.append([3,1,3, CLAW + '/ESS544/dtopo/alaska1964.tt3'])  # SET alaska1964.tt3
-    #dtopo_data.dtopofiles.append([3,1,3, CLAW + '/ESS544/dtopo/alaska1964_ichinose_x1p72.tt3'])  # SET alaska1964_ichinose.tt3
-    dtopo_data.dtopofiles.append([3,1,3, CLAW + '/ESS544/dtopo/CSZ_L1.tt3'])  # SET CSZ_L1.tt3
+    # SET CSZ_L1.tt3
+    dtopo_data.dtopofiles.append([3,1,3, dtopo_file])
     #rundata.dtopo_data.dt_max_dtopo = 1.0  # max time step while topo moving
 
     # == setqinit.data values ==

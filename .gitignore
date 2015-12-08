@@ -1,5 +1,7 @@
 _output/
 archive_paper_runs
+*.tt3
+*.asc
 *.data
 *.out
 *.kml
