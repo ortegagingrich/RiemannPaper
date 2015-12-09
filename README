@@ -1,0 +1,62 @@
+This repository contains code which runs tests similar to those in my brief
+manuscript documenting some attempts at implementing a hybrid Riemann solver
+combining both David George's solver (as implemented in geoclaw) and a 
+simplified Roe-like linear solver.  The example run herein involves a Cascadia
+Subduction Zone event, paying particular attention to the innundation around 
+Grays Harbor.
+
+Before attempting to run this, please be sure to install clawpack following the
+directions here:
+	http://www.clawpack.org/installing.html#install-all-clawpack-packages
+including the correct setting of environment variables.  For the use of
+multiple threads to allow for faster execution on multicore machines, please 
+see:
+	http://www.clawpack.org/openmp.html
+
+Once clawpack has been installed, simply use
+```
+python run_tests.py
+```
+inside of this directory to execute a test problem using the twelve Riemann
+solver variants discussed in the manuscript.  This will automatically:
+	1) Download necessary topo (topography) and dtopo (earthquake source) files.
+	2) Complete a single two hour simulation of a Cascadia L1 event with a
+	   checkpoint approximately five minutes from the end.  This run is done
+	   using the number of threads set in the environment variable 
+	   OMP_NUM_THREADS, or one thread if that variable is not set.
+	3) Complete the twelve single-threaded trials with different Riemann solvers 
+	   starting from the checkpoint set in the first run, recording the number
+	   of full and Roe solves done in each simulation as well as the time taken.
+	   Although these are single-threaded runs, if the environment variable 
+	   OMP_NUM_THREADS is set, it will run that many processes in parallel.
+
+The data produced by the various runs can all be found in subdirectories of the
+runs directory following the execution of the tests.  In particular, the files
+console.out found in each subdirectory contains the console output for that
+particular Riemann solver trial, including (near the end) the timing data as
+well as the total number of Riemann solves of each type done.
+
+This is nearly identical to the simulation used in the above paper, but with
+slightly cropped topography to save on bandwidth and slightly coarser grid at
+the finest level to allow for faster execution. (The original tests used in the
+paper took several hours to run on a reasonably fast machine using 12 threads.)
+In order to adjust the grid sizes, please adjust the refinement ratios set in
+run_files/setrun.py (used for single-threaded trials) and 
+run_files/restart_data/setrun.py (used for the initial full run).  Please note
+that these ratios must match, otherwise geoclaw may be unable to restart from
+the created checkpoints.
+
+To try different Riemann solver parameters, please make adjustments to the
+run_tests() function inside run_tests.py.  Each trial is an instance of the
+trial.run.RiemannRun class, which is defined in trial/run.py.  Again, please
+see run_tests.py for proper examples on how to set them up.
+
+Each trial is constructed using the file setrun.py and the makefiles in the 
+run_files subdirectory as well as the modified Fortran source files found in the
+src subdirectory.  A stub source file hybrid_parameters.f90, which is called at
+the beginning of each trial and sets the parameter values for the hybrid
+solvers tried, is also generated for each trial. 
+
+Jacob Ortega-Gingrich
+ortegagingrich@gmail.com
+(December 2015)
