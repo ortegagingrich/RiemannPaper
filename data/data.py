@@ -5,13 +5,16 @@ Not meant to be imported, call directly from the shell.
 
 import os
 
+DATA_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 def __download_topo__():
 	""" Retrieves necessary topography files from the clawpack site """
 	from clawpack.geoclaw import topotools
 	from clawpack.clawutil.data import get_remote_file
 	
-	topo_dir = os.path.join(os.getcwd(), 'topo')
+	
+	topo_dir = os.path.join(DATA_DIR, 'topo')
 	print 'Downloading topo data to {}'.format(topo_dir)
 	
 	baseurl = 'http://depts.washington.edu/clawpack/geoclaw/topo/'
@@ -39,18 +42,18 @@ def __download_dtopo__():
 	
 	dtopo_fname = 'CSZ_L1.tt3'
 	url = 'http://www.geoclaw.org/dtopo/CSZ/' + dtopo_fname
-	dtopo_dir = os.path.join(os.getcwd(), 'dtopo')
+	dtopo_dir = os.path.join(DATA_DIR, 'dtopo')
 	print 'Downloading dtopo data to {}'.format(dtopo_dir)
 	
 	#retrieve file
 	get_remote_file(url, output_dir=dtopo_dir, file_name=dtopo_fname)
 
 
-def __download_data__():
+def download_data():
 	""" Retrieves necessary topo and dtopo files from the clawpack site """
 	__download_topo__()
 	__download_dtopo__()
 
 
 if __name__ == '__main__':
-	__download_data__()
+	download_data()

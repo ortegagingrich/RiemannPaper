@@ -8,11 +8,8 @@ import os
 
 def download_data():
 	""" Downloads topo and dtopo data """
-	top_directory = os.getcwd()
-	#bad hack; fix this
-	os.chdir('data')
-	os.system('python data.py') #call python from shell from python (stupid)
-	os.chdir(top_directory)
+	from data import data
+	data.download_data()
 
 
 def generate_restart_data():
