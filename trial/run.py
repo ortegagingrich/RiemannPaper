@@ -37,8 +37,6 @@ class RiemannRun(object):
         
         run_directory_path = "runs/run_{}".format(self.identifier)
         
-        print os.getcwd()
-        
         #clear the run directory, if it already exists, then make a new one
         try:
             shutil.rmtree(run_directory_path)
@@ -96,7 +94,9 @@ class RiemannRun(object):
         os.chdir(self.run_directory_path)
         
         #execute in a new process
-        os.system("make all >> console.out &")
+        print "Starting process for run: {}".format(self.identifier)
+        os.system("make .output >> console.out")
+        print "Process started for run: {}".format(self.identifier)
         
         os.chdir(old_directory)
         
@@ -135,7 +135,43 @@ class RiemannRun(object):
         with open(param_path, 'w') as param_file:
             for line in code:
                 param_file.write(line + '\n')
-        
+
+def run_trials(run_list, n_processes=1):
+	""" Run the trials in the list using the specified number of processes """
+	import os
+	
+	#for just a single process
+	if n_processes == 1:
+		for run in run_list:
+			print 'Running process "{}" on process pid {}'.format(
+				                          run.identifier, os.getpid())
+			run.execute()
+		return
+	
+	#otherwise, multiple processes
+	from multiprocessing import Process
+	
+	partitioned = []
+	for p in range(0, n_processes):
+		partitioned.append([])
+	
+	p_index = 0
+	while len(run_list) > 0:
+		partitioned[p_index].append(run_list.pop())
+		
+		p_index += 1
+		if p_index >= n_processes:
+			p_index = 0
+	
+	processes = []
+	for partition in partitioned:
+		process = Process(target = run_trials, args = (partition,))
+		process.start()
+		processes.append(process)
+	for process in processes:
+		process.join()
+		
+
 
 if __name__ == "__main__":
     import os

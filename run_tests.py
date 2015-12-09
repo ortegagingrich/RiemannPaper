@@ -11,7 +11,7 @@ def download_data():
 	top_directory = os.getcwd()
 	#bad hack; fix this
 	os.chdir('data')
-	os.system('python data.py')
+	os.system('python data.py') #call python from shell from python (stupid)
 	os.chdir(top_directory)
 
 
@@ -36,23 +36,24 @@ def run_tests():
     download_data()
     generate_restart_data()
     
+    runlist = []
+    
     #Control (full solver)
     full = run.RiemannRun("full", 1)
     full.setup_directory()
-    full.execute()
+    runlist.append(full)
     
-    #temporary
-    if True:
-    	return
+    
     
     #Roedeep (depth tolerance only)
-    depths = []
+    #depths = [5.0, 10.0, 20.0]
     depths = [5.0, 10.0, 20.0, 40.0, 70.0, 100.0]
     for depth in depths:
         roedeep = run.RiemannRun("roedeep_{}".format(round(depth)), 2)
         roedeep.roe_minimum_depth = depth
         roedeep.setup_directory()
-        roedeep.execute()
+        runlist.append(roedeep)
+    
     
     #RoeCone (phase plane cone)
     params = [
@@ -69,7 +70,16 @@ def run_tests():
         roecone.roe_momentum_ratio = param[1]
         roecone.roe_depth_fraction = param[2]
         roecone.setup_directory()
-        roecone.execute()
+        runlist.append(roecone)
+    
+    #determine number of processes to use (by default, use same number as OMP)
+    try:
+    	np = int(os.environ['OMP_NUM_THREADS'])
+    except:
+    	np = 1
+    
+    #execute all runs
+    run.run_trials(runlist, n_processes=np)
     
 
 def clear_runs():
