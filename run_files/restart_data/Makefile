@@ -30,10 +30,8 @@ FFLAGS ?=
 # List of sources for this program:
 # ---------------------------------
 
-AMRLIB = $(CLAW)/amrclaw/src/2d
-GEOLIB = $(CLAW)/geoclaw/src/2d/shallow
 
-include $(GEOLIB)/Makefile.geoclaw
+include Makefile.geoclaw
 
 
 MODULES = \

@@ -65,7 +65,8 @@ class RiemannRun(object):
         self.__generate_parameter_file(source_path)
         
         #copy run files
-        run_files = ["Makefile", "setplot.py", "setrun.py"]
+        run_files = ["Makefile", "Makefile.geoclaw", "Makefile.amr_2d_geoclaw", 
+                     "setplot.py", "setrun.py"]
         for rf in run_files:
             shutil.copy("run_files/{}".format(rf), run_directory_path)
         

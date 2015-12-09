@@ -36,7 +36,7 @@ FFLAGS ?=
 AMRLIB = $(CLAW)/amrclaw/src/2d
 GEOLIB = $(CLAW)/geoclaw/src/2d/shallow
 
-include $(GEOLIB)/Makefile.geoclaw
+include Makefile.geoclaw
 
 EXCLUDE_SOURCES = \
 
