@@ -21,6 +21,9 @@ PLOTDIR = _plots               # Directory for plots
 OVERWRITE ?= True                   # False ==> make a copy of OUTDIR first
 RESTART ?= True                  # Should = clawdata.restart in setrun
 
+# make sure only one thread is used
+OMP_NUM_THREADS = 1
+
 # Environment variable FC should be set to fortran compiler, e.g. gfortran
 
 # Compiler flags can be specified here or set as an environment variable
@@ -39,6 +42,7 @@ EXCLUDE_SOURCES = \
 
 MODULES = \
   src/amr_module.f90 \
+  src/gauges_module.f90 \
 
 SOURCES = \
   src/amr2.f90 \

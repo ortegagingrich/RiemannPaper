@@ -37,6 +37,8 @@ class RiemannRun(object):
         
         run_directory_path = "runs/run_{}".format(self.identifier)
         
+        print os.getcwd()
+        
         #clear the run directory, if it already exists, then make a new one
         try:
             shutil.rmtree(run_directory_path)

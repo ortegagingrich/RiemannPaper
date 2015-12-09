@@ -27,6 +27,7 @@ def generate_restart_data():
 		print 'Failed to generate restart run data'
 		raise
 	print 'Finished restart run'
+	os.chdir(top_directory)
 	
 
 
