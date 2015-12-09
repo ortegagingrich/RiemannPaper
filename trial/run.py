@@ -174,13 +174,3 @@ def run_trials(run_list, n_processes=1):
 		process.join()
 		
 
-
-if __name__ == "__main__":
-    import os
-    olddir =  os.getcwd()
-    print olddir
-    os.chdir("..")
-    print os.getcwd()
-    os.chdir(olddir)
-    print os.getcwd()
-
