@@ -48,6 +48,8 @@ SOURCES = \
   src/amr2.f90 \
   src/hybrid_parameters.f90 \
   src/rpn2_geoclaw.f \
+  src/check.f \
+  src/restrt.f \
   $(CLAW)/riemann/src/rpt2_geoclaw.f \
   $(CLAW)/riemann/src/geoclaw_riemann_utils.f \
 
