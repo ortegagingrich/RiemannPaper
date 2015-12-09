@@ -2,12 +2,19 @@ _output/
 archive_paper_runs
 *.tt3
 *.asc
+*.output
+*.out
 *.data
 *.out
 *.kml
 *.pyc
 *.o
 *.mod
+*.log
+*.html
+*.png
+*.tex
 xgeoclaw
+*~
 
 

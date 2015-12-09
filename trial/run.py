@@ -72,7 +72,13 @@ class RiemannRun(object):
         #copy existing output directory
         output_path = os.path.join(run_directory_path, "_output")
         os.mkdir(output_path)
-        for outdir_file in glob.glob(r'run_files/_output/*'):
+        restart_data_path = os.path.join(os.getcwd(), 'run_files',
+                                         'restart_data','_output')
+        if not os.path.exists(restart_data_path):
+        	print 'Must run restart data run first.'
+        	print 'Please execute run_tests.generate_restart_data()'
+        	raise Exception('No Restart Data')
+        for outdir_file in glob.glob(restart_data_path + '/*'):
             shutil.copy(outdir_file, output_path)
         
         

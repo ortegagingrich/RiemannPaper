@@ -12,6 +12,7 @@ def __download_topo__():
 	from clawpack.clawutil.data import get_remote_file
 	
 	topo_dir = os.path.join(os.getcwd(), 'topo')
+	print 'Downloading topo data to {}'.format(topo_dir)
 	
 	baseurl = 'http://depts.washington.edu/clawpack/geoclaw/topo/'
 	
@@ -39,6 +40,7 @@ def __download_dtopo__():
 	dtopo_fname = 'CSZ_L1.tt3'
 	url = 'http://www.geoclaw.org/dtopo/CSZ/' + dtopo_fname
 	dtopo_dir = os.path.join(os.getcwd(), 'dtopo')
+	print 'Downloading dtopo data to {}'.format(dtopo_dir)
 	
 	#retrieve file
 	get_remote_file(url, output_dir=dtopo_dir, file_name=dtopo_fname)

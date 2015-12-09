@@ -6,18 +6,43 @@ from trial import run
 import os
 
 
-def set_environ():
-	""" Set environment variables, etc. needed for run """
-	riemann_paper_directory = os.getcwd()
+def download_data():
+	""" Downloads topo and dtopo data """
+	top_directory = os.getcwd()
+	#bad hack; fix this
+	os.chdir('data')
+	os.system('python data.py')
+	os.chdir(top_directory)
+
+
+def generate_restart_data():
+	""" Do initial full run to generate restart data for trials """
+	top_directory = os.getcwd()
+	os.chdir('run_files/restart_data')
+	
+	print 'Attempting to generate restart run data'
+	try:
+		os.system('make .output')
+	except:
+		print 'Failed to generate restart run data'
+		raise
+	print 'Finished restart run'
+	
 
 
 def run_tests():
     """For now, just run a single test"""
+    download_data()
+    generate_restart_data()
     
     #Control (full solver)
     full = run.RiemannRun("full", 1)
     full.setup_directory()
     full.execute()
+    
+    #temporary
+    if True:
+    	return
     
     #Roedeep (depth tolerance only)
     depths = []
