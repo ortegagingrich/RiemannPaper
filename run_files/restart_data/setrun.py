@@ -288,7 +288,7 @@ def setrun(claw_pkg='geoclaw'):
     #amrdata.refinement_ratios_y = [10,12,30]  # SET Levels 2,3, ... y Refinement ratios
     #amrdata.refinement_ratios_t = [1,1,1]
     
-    ratios = [10, 6, 5]
+    ratios = [10, 12, 15]
     amrdata.refinement_ratios_x = ratios
     amrdata.refinement_ratios_y = ratios
     
